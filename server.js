@@ -7,6 +7,7 @@ const employeeRoutes = require("./routes/employeeRoutes")
 const driverRoutes = require("./routes/driverRoutes")
 const upload = require("./routes/upload")
 const expenseRoutes = require("./routes/expenseRoutes")
+const reportRoutes = require("./routes/reportRoutes")
 const tripRoutes = require("./routes//tripRoutes")
 const salaryRoutes = require("./routes/salaryRoutes")
 const attendanceRoutes = require("./routes/attendanceRoutes")
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use("/api/admin", adminRoutes);
 app.use("/api/employee", employeeRoutes);
 app.use("/api/salary", salaryRoutes);
+app.use("/api/report", reportRoutes);
 app.use("/api/upload", upload);
 app.use("/api/driver", driverRoutes);
 app.use("/api/expense", expenseRoutes);

@@ -18,6 +18,10 @@ const reportSchema = mongoose.Schema(
       type: Boolean,
       deafult: false,
     },
+    type: {
+      type: String,
+      deafult: "Report",
+    },
   },
   {
     timestamps: true,

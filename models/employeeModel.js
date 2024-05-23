@@ -45,7 +45,7 @@ const employeeSchema = mongoose.Schema(
         type: String,
       },
       bankDetails: {
-        type: String,
+        type: Object,
       },
       fathername: {
         type: String,
