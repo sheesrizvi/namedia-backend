@@ -21,7 +21,7 @@ const driverSchema = mongoose.Schema(
       required: true,
     },
     bankDetails: {
-      type: String,
+      type: Object,
     },
     fathername: {
       type: String,

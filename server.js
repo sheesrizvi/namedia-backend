@@ -26,7 +26,7 @@ app.use(express.json());
 app.use("/api/admin", adminRoutes);
 app.use("/api/employee", employeeRoutes);
 app.use("/api/salary", salaryRoutes);
-// app.use("/api/upload", upload);
+app.use("/api/upload", upload);
 app.use("/api/driver", driverRoutes);
 app.use("/api/expense", expenseRoutes);
 app.use("/api/trip", tripRoutes);
