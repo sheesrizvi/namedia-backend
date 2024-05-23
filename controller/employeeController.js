@@ -161,8 +161,19 @@ const updateEmployee = asyncHandler(async (req, res) => {
 // @route   Get /api/users
 // @access  Private/Admin
 const getEmployees = asyncHandler(async (req, res) => {
-  const users = await Employee.find({});
-  res.json(users);
+  const page = Number(req.query.pageNumber) || 1;
+  const pageSize = 30;
+  const count = await Employee.countDocuments({
+   
+  });
+  var pageCount = Math.floor(count / 30);
+  if (count % 30 !== 0) {
+    pageCount = pageCount + 1;
+  }
+  const users = await Employee.find({}).limit(pageSize)
+  .sort({ createdAt: -1 })
+  .skip(pageSize * (page - 1))
+  res.json({users, pageCount});
 });
 
 // @desc    Delete users
