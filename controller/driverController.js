@@ -96,8 +96,7 @@ const registerUser = asyncHandler(async (req, res) => {
 //@access   Private
 
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await Driver.findById(req.driver._id);
-
+  const user = await Driver.findById(req.query._id);
   if (user) {
     res.json(user);
   } else {

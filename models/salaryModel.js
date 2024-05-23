@@ -13,6 +13,10 @@ const salarySchema = mongoose.Schema(
       required: true,
       ref: "SalaryStructure",
     },
+    bonus: {
+      type: Number,
+      required: true,
+    },
     amount: {
       type: Number,
       required: true,

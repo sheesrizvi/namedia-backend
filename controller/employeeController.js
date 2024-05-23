@@ -95,7 +95,7 @@ const registerEmployee = asyncHandler(async (req, res) => {
 //@access   Private
 
 const getEmployeeProfile = asyncHandler(async (req, res) => {
-  const user = await Employee.findById(req.driver._id);
+  const user = await Employee.findById(req.query._id);
 
   if (user) {
     res.json(user);

@@ -24,10 +24,44 @@ const createSalaryStructure = asyncHandler(async (req, res) => {
     throw new Error("Error");
   }
 });
+const updateSalaryStructure = asyncHandler(async (req, res) => {
+  const { id, basic, hra, tele, ta, esi, pf, total } = req.body;
+
+  const salarystructure = await SalaryStructure.findById(id);
+
+  if (salarystructure) {
+    salarystructure.basic = basic;
+    salarystructure.hra = hra;
+    salarystructure.tele = tele;
+    salarystructure.ta = ta;
+    salarystructure.esi = esi;
+    salarystructure.pf = pf;
+    salarystructure.total = total;
+    const updatedsalarystructure = await salarystructure.save();
+    res.json(updatedsalarystructure);
+  } else {
+    res.status(404);
+    throw new Error("Error");
+  }
+});
+
+const getStructureByEmployee = asyncHandler(async (req, res) => {
+  const { employee } = req.query;
+
+  const salarystructure = await SalaryStructure.findOne({ employee });
+
+  if (salarystructure) {
+    res.json(salarystructure);
+  } else {
+    res.status(404);
+    throw new Error("Error");
+  }
+});
+
 const generateSalary = asyncHandler(async (req, res) => {
-  const { employee, salaryStructure, dateofmonth, month } = req.body;
+  const { employee, salaryStructure, dateofmonth, bonus, month } = req.body;
   const s1 = parseISO(dateofmonth);
-  const salarystructure = await SalaryStructure.findById({ salaryStructure });
+  const salarystructure = await SalaryStructure.findById(salaryStructure);
   const absent = await Attendance.CountDocuments({
     $and: [
       { type: "absent" },
@@ -46,6 +80,7 @@ const generateSalary = asyncHandler(async (req, res) => {
     salaryStructure,
     month,
     amount,
+    bonus
   });
   if (salary) {
     res.json(salary);
@@ -55,4 +90,9 @@ const generateSalary = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createSalaryStructure, generateSalary };
+module.exports = {
+  createSalaryStructure,
+  generateSalary,
+  getStructureByEmployee,
+  updateSalaryStructure,
+};
