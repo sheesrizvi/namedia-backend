@@ -18,13 +18,17 @@ const reportGramSchema = mongoose.Schema(
       type: Boolean,
       deafult: false,
     },
+    type: {
+      type: String,
+      deafult: "ReportGram",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-reportSchema.index({ location: "2dsphere" });
+reportGramSchema.index({ location: "2dsphere" });
 
 const ReportGram = mongoose.model("ReportGram", reportGramSchema);
 
