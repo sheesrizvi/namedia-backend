@@ -96,7 +96,7 @@ const registerUser = asyncHandler(async (req, res) => {
 //@access   Private
 
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await Driver.findById(req.driver._id);
+  const user = await Driver.findById(req.query.driverId);
 
   if (user) {
     res.json(user);
@@ -164,17 +164,16 @@ const updateUser = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
   const page = Number(req.query.pageNumber) || 1;
   const pageSize = 30;
-  const count = await Driver.countDocuments({
-   
-  });
+  const count = await Driver.countDocuments({});
   var pageCount = Math.floor(count / 30);
   if (count % 30 !== 0) {
     pageCount = pageCount + 1;
   }
-  const users = await Driver.find({}).limit(pageSize)
-  .sort({ createdAt: -1 })
-  .skip(pageSize * (page - 1))
-  res.json({users, pageCount});
+  const users = await Driver.find({})
+    .limit(pageSize)
+    .sort({ createdAt: -1 })
+    .skip(pageSize * (page - 1));
+  res.json({ users, pageCount });
 });
 
 // @desc    Delete users

@@ -10,7 +10,6 @@ const presentSchema = mongoose.Schema(
     },
     date: {
       type: Date,
-      required: true,
     },
     entry: {
       type: Date,
@@ -20,12 +19,12 @@ const presentSchema = mongoose.Schema(
       type: Date,
     },
     workingHours: {
-      type: Number
+      type: Number,
     },
     location: {
-        type: { type: String, default: "Point" },
-        coordinates: { type: [Number], index: "2dsphere" },
-      },
+      type: { type: String, default: "Point" },
+      coordinates: { type: [Number], index: "2dsphere" },
+    },
   },
   {
     timestamps: true,

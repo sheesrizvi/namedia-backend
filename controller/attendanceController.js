@@ -14,7 +14,7 @@ const createabsent = asyncHandler(async (req, res) => {
       employee,
       date,
       absent: absents._id,
-      type: "absent"
+      type: "absent",
     });
     if (attendance) {
       res.status(201).json(attendance);
@@ -28,7 +28,7 @@ const createabsent = asyncHandler(async (req, res) => {
       employee,
       date,
       holiday: holidays._id,
-      type: "holiday"
+      type: "holiday",
     });
     if (attendance) {
       res.status(201).json(attendance);
@@ -52,10 +52,11 @@ const createpresentlogin = asyncHandler(async (req, res) => {
   });
   const attendance = await Attendance.create({
     employee,
-    date,
+    date: entry,
     present: presents._id,
-    type: "present"
+    type: "present",
   });
+
   if (attendance) {
     res.status(201).json(attendance);
   } else {
@@ -63,22 +64,26 @@ const createpresentlogin = asyncHandler(async (req, res) => {
     throw new Error("Error");
   }
 });
+
 const createpresentlogout = asyncHandler(async (req, res) => {
   const { id, exit } = req.body;
 
   const present = await Present.findById(id);
   const workingHours =
-    (present.entry.getTime() - exit.getTime()) / (1000 * 60 * 60).toFixed(2);
+    (new Date(exit).getTime() - present.entry.getTime()) /
+    (1000 * 60 * 60).toFixed(2);
   if (present) {
     present.exit = exit;
     present.workingHours = workingHours;
     const updatedPresent = await present.save();
+
     res.json(updatedPresent);
   } else {
     res.status(404);
     throw new Error("Attendance not found");
   }
 });
+
 const getattendanceByEmployee = asyncHandler(async (req, res) => {
   const { startDate, endDate, employee } = req.query;
   const s1 = parseISO(startDate);

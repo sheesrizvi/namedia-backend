@@ -38,7 +38,7 @@ const registerEmployee = asyncHandler(async (req, res) => {
     phone,
     bankDetails,
     fathername,
-  allergy,
+    allergy,
     dob,
     address,
     pan,
@@ -95,7 +95,7 @@ const registerEmployee = asyncHandler(async (req, res) => {
 //@access   Private
 
 const getEmployeeProfile = asyncHandler(async (req, res) => {
-  const user = await Employee.findById(req.driver._id);
+  const user = await Employee.findById(req.query.empId);
 
   if (user) {
     res.json(user);
@@ -163,17 +163,16 @@ const updateEmployee = asyncHandler(async (req, res) => {
 const getEmployees = asyncHandler(async (req, res) => {
   const page = Number(req.query.pageNumber) || 1;
   const pageSize = 30;
-  const count = await Employee.countDocuments({
-   
-  });
+  const count = await Employee.countDocuments({});
   var pageCount = Math.floor(count / 30);
   if (count % 30 !== 0) {
     pageCount = pageCount + 1;
   }
-  const users = await Employee.find({}).limit(pageSize)
-  .sort({ createdAt: -1 })
-  .skip(pageSize * (page - 1))
-  res.json({users, pageCount});
+  const users = await Employee.find({})
+    .limit(pageSize)
+    .sort({ createdAt: -1 })
+    .skip(pageSize * (page - 1));
+  res.json({ users, pageCount });
 });
 
 // @desc    Delete users

@@ -24,7 +24,7 @@ const attendanceSchema = mongoose.Schema(
       ref: "Present",
     },
     type: {
-      type: String
+      type: String,
     },
   },
   {
