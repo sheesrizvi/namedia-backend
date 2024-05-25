@@ -12,14 +12,6 @@ const tripRoutes = require("./routes//tripRoutes");
 const salaryRoutes = require("./routes/salaryRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 
-const employeeRoutes = require("./routes/employeeRoutes");
-const driverRoutes = require("./routes/driverRoutes");
-const upload = require("./routes/upload");
-const expenseRoutes = require("./routes/expenseRoutes");
-const tripRoutes = require("./routes//tripRoutes");
-const salaryRoutes = require("./routes/salaryRoutes");
-const attendanceRoutes = require("./routes/attendanceRoutes");
-
 const cors = require("cors");
 
 const app = express();

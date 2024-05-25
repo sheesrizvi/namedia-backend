@@ -7,9 +7,10 @@ const { endOfDay } = require("date-fns");
 const { startOfDay } = require("date-fns");
 
 const createabsent = asyncHandler(async (req, res) => {
-  const { employee, date, absent, holiday, leaveType, holidayType } = req.body;
+  const { employee, from, to, date, absent, holiday, leaveType, holidayType } =
+    req.body;
   if (absent) {
-    const absents = await Absent.create({ employee, date, leaveType });
+    const absents = await Absent.create({ employee, from, to, leaveType });
     const attendance = await Attendance.create({
       employee,
       date,
