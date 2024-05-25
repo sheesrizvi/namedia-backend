@@ -7,22 +7,21 @@ const { endOfDay } = require("date-fns");
 const { startOfDay } = require("date-fns");
 
 const createabsent = asyncHandler(async (req, res) => {
-  const { employee, from, to, date, absent, holiday, leaveType, holidayType } =
-    req.body;
-  if (absent) {
-    const absents = await Absent.create({ employee, from, to, leaveType });
+  const { employee, date, absent, holiday, leaveType, holidayType } = req.body;
+  const createAten = async (element) => {
+    const absents = await Absent.create({ employee, date: element, leaveType });
     const attendance = await Attendance.create({
       employee,
-      date,
+      date: element,
       absent: absents._id,
       type: "absent",
     });
-    if (attendance) {
-      res.status(201).json(attendance);
-    } else {
-      res.status(404);
-      throw new Error("Error");
-    }
+  };
+  if (absent) {
+    date.forEach((element) => {
+      createAten(element);
+    });
+    console.log("success");
   } else if (holiday) {
     const holidays = await Holiday.create({ employee, date, holidayType });
     const attendance = await Attendance.create({
@@ -108,10 +107,25 @@ const getattendanceByEmployee = asyncHandler(async (req, res) => {
     throw new Error("Attendance not found");
   }
 });
+const getAllattendanceByEmployee = asyncHandler(async (req, res) => {
+  const { employee } = req.query;
+
+  const attendance = Attendance.find({
+    employee: employee,
+  });
+
+  if (attendance) {
+    res.json(attendance);
+  } else {
+    res.status(404);
+    throw new Error("Attendance not found");
+  }
+});
 
 module.exports = {
   createabsent,
   createpresentlogin,
   createpresentlogout,
   getattendanceByEmployee,
+  getAllattendanceByEmployee
 };

@@ -7,11 +7,7 @@ const absentSchema = mongoose.Schema(
       required: true,
       ref: "Employee",
     },
-    from: {
-      type: Date,
-      required: true,
-    },
-    to: {
+    date: {
       type: Date,
       required: true,
     },

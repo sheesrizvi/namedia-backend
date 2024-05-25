@@ -7,7 +7,7 @@ const holidaySchema = mongoose.Schema(
       required: true,
       ref: "Employee",
     },
-    Date: {
+    date: {
       type: Date,
       required: true,
     },
