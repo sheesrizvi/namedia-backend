@@ -20,11 +20,11 @@ const expenseSchema = mongoose.Schema(
     },
     approved: {
       type: Boolean,
-      default: false
+      default: false,
     },
     cleared: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   {
