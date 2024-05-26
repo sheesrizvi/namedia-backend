@@ -8,19 +8,21 @@ const { startOfDay } = require("date-fns");
 
 const createabsent = asyncHandler(async (req, res) => {
   const { employee, date, absent, holiday, leaveType, holidayType } = req.body;
+
   const createAten = async (element) => {
     const absents = await Absent.create({ employee, date: element, leaveType });
     const attendance = await Attendance.create({
       employee,
       date: element,
       absent: absents._id,
-      type: "absent",
+      type: leaveType,
     });
   };
   if (absent) {
     date.forEach((element) => {
       createAten(element);
     });
+    res.json("success");
   } else if (holiday) {
     const holidays = await Holiday.create({ employee, date, holidayType });
     const attendance = await Attendance.create({
@@ -109,9 +111,8 @@ const getattendanceByEmployee = asyncHandler(async (req, res) => {
 const getAllattendanceByEmployee = asyncHandler(async (req, res) => {
   const { employee } = req.query;
 
-  const attendance = await Attendance.find({
-    employee: employee,
-  });
+  const attendance = await Attendance.find({ employee });
+  console.log(attendance);
   if (attendance) {
     res.json(attendance);
   } else {

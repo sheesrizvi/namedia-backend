@@ -63,7 +63,7 @@ const getExpenseByDriver = asyncHandler(async (req, res) => {
   const { driver } = req.query;
 
   const expense = await Expense.find({
-    driver: driver,
+    driver,
   });
   if (expense) {
     res.json(expense);
@@ -77,5 +77,5 @@ module.exports = {
   createExpense,
   approveClearExpense,
   getExpense,
-  getExpenseByDriver
+  getExpenseByDriver,
 };
