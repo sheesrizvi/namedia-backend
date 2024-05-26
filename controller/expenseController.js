@@ -62,7 +62,7 @@ const getExpense = asyncHandler(async (req, res) => {
 const getExpenseByDriver = asyncHandler(async (req, res) => {
   const { driver } = req.query;
 
-  const expense = Expense.find({
+  const expense = await Expense.find({
     driver: driver,
   });
   if (expense) {

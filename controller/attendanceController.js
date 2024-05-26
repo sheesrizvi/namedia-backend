@@ -21,7 +21,6 @@ const createabsent = asyncHandler(async (req, res) => {
     date.forEach((element) => {
       createAten(element);
     });
-    console.log("success");
   } else if (holiday) {
     const holidays = await Holiday.create({ employee, date, holidayType });
     const attendance = await Attendance.create({
@@ -88,7 +87,7 @@ const getattendanceByEmployee = asyncHandler(async (req, res) => {
   const { startDate, endDate, employee } = req.query;
   const s1 = parseISO(startDate);
   const s2 = parseISO(endDate);
-  const attendance = Attendance.find({
+  const attendance = await Attendance.find({
     $and: [
       employee,
       {
@@ -110,10 +109,9 @@ const getattendanceByEmployee = asyncHandler(async (req, res) => {
 const getAllattendanceByEmployee = asyncHandler(async (req, res) => {
   const { employee } = req.query;
 
-  const attendance = Attendance.find({
+  const attendance = await Attendance.find({
     employee: employee,
   });
-
   if (attendance) {
     res.json(attendance);
   } else {
@@ -127,5 +125,5 @@ module.exports = {
   createpresentlogin,
   createpresentlogout,
   getattendanceByEmployee,
-  getAllattendanceByEmployee
+  getAllattendanceByEmployee,
 };
