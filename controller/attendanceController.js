@@ -112,7 +112,7 @@ const getAllattendanceByEmployee = asyncHandler(async (req, res) => {
   const { employee } = req.query;
 
   const attendance = await Attendance.find({ employee });
-  console.log(attendance);
+
   if (attendance) {
     res.json(attendance);
   } else {
