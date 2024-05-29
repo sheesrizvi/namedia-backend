@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+namedia-app-firebase-adminsdk-wlndo-9f68aca2ee.json
 
 # Editor directories and files
 .vscode/*

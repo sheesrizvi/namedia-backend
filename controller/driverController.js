@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { generateTokenDriver } = require("../utils/generateToken.js");
 const nodemailer = require("nodemailer");
 const Driver = require("../models/driverModel.js");
+const Location = require("../models/locationModel.js");
 // const emailTemplate = require("../document/email");
 
 // @desc    Auth user & get token
@@ -10,6 +11,42 @@ const Driver = require("../models/driverModel.js");
 
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
+  const user = await Driver.findOne({ email });
+
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+
+      token: generateTokenDriver(user._id, user.name, user.email),
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
+});
+const createLocation = asyncHandler(async (req, res) => {
+  const { location, driver } = req.body;
+  const locationExists = Location.findOne({driver: driver})
+  if (locationExists) {
+    locationExists.location = {
+      type: "Point",
+      coordinates: [location.longitude, location.latitude],
+    };
+    const updatedLocation = await locationExists.save();
+    res.json({ updatedLocation });
+  }  else {
+    const driverlocation = await Location.create({
+      driver: driver,
+      location: {
+        type: "Point",
+        coordinates: [location.longitude, location.latitude],
+      },
+    });
+    res.json({ driverlocation });
+  }
 
   const user = await Driver.findOne({ email });
 
@@ -209,8 +246,18 @@ const getUserById = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/:id
 // @access  Private/Admin
 
+const getDriverLocation = asyncHandler(async (req, res) => {
+  // const { user } = req.body;
+  const driver = await Driver.findOne({
+    driver: req.query.id,
+  });
+  res.json(driver);
+});
+
 module.exports = {
   authUser,
+  createLocation,
+  getDriverLocation,
   registerUser,
   getUserProfile,
   getUsers,

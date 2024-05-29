@@ -53,6 +53,9 @@ const driverSchema = mongoose.Schema(
     status: {
       type: String,
     },
+    pushToken: {
+      type: String,
+    },
   },
   {
     timestamps: true,

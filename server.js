@@ -10,6 +10,8 @@ const expenseRoutes = require("./routes/expenseRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const tripRoutes = require("./routes//tripRoutes");
 const salaryRoutes = require("./routes/salaryRoutes");
+const sendNotification = require("./routes/sendNotification");
+const rnPushTokens = require("./routes/rnPushTokens");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 
 const cors = require("cors");
@@ -32,6 +34,8 @@ app.use("/api/driver", driverRoutes);
 app.use("/api/expense", expenseRoutes);
 app.use("/api/trip", tripRoutes);
 app.use("/api/attendance", attendanceRoutes);
+app.use("/api/rnPushTokens", rnPushTokens);
+app.use("/api/notification", sendNotification);
 
 mongoose
   .connect(source)
