@@ -53,6 +53,10 @@ const employeeSchema = mongoose.Schema(
     status: {
       type: String,
     },
+    type: {
+      type: String,
+      default: "emp",
+    },
   },
   {
     timestamps: true,

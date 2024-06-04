@@ -5,17 +5,18 @@ const generateTokenAdmin = (id, name, email, userType) => {
     expiresIn: "1d",
   });
 };
-const generateTokenDriver = (id, name, email) => {
-  return jwt.sign({ id, name, email }, process.env.JWT_SECRET, {
+const generateTokenDriver = (id, name, email, type) => {
+  return jwt.sign({ id, name, email, type }, process.env.JWT_SECRET, {
     expiresIn: "1d",
   });
 };
-const generateTokenEmployee = (id, name, email) => {
+const generateTokenEmployee = (id, name, email, type) => {
   return jwt.sign(
     {
       id,
       name,
       email,
+      type,
     },
     process.env.JWT_SECRET,
     {
@@ -24,9 +25,8 @@ const generateTokenEmployee = (id, name, email) => {
   );
 };
 
-
 module.exports = {
   generateTokenAdmin,
   generateTokenDriver,
-  generateTokenEmployee
+  generateTokenEmployee,
 };

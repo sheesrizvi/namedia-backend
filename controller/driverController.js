@@ -20,7 +20,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
 
-      token: generateTokenDriver(user._id, user.name, user.email),
+      token: generateTokenDriver(user._id, user.name, user.email, user.type),
     });
   } else {
     res.status(401);
@@ -30,7 +30,7 @@ const authUser = asyncHandler(async (req, res) => {
 
 const createLocation = asyncHandler(async (req, res) => {
   const { location, driver } = req.body;
-  console.log(location, "loc");
+
   const locationExists = await Location.findOne({ driver: driver });
 
   if (locationExists) {
@@ -108,7 +108,7 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
 
-      token: generateTokenDriver(user._id, user.name, user.email),
+      token: generateTokenDriver(user._id, user.name, user.email, user.type),
     });
   } else {
     res.status(404);

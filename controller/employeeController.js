@@ -18,7 +18,7 @@ const authEmployee = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
 
-      token: generateTokenEmployee(user._id, user.name, user.email),
+      token: generateTokenEmployee(user._id, user.name, user.email, user.type),
     });
   } else {
     res.status(401);
@@ -82,7 +82,7 @@ const registerEmployee = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
 
-      token: generateTokenEmployee(user._id, user.name, user.email),
+      token: generateTokenEmployee(user._id, user.name, user.email, user.type),
     });
   } else {
     res.status(404);
