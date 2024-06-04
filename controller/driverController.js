@@ -27,9 +27,12 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid email or password");
   }
 });
+
 const createLocation = asyncHandler(async (req, res) => {
   const { location, driver } = req.body;
-  const locationExists = Location.findOne({driver: driver})
+  console.log(location, "loc");
+  const locationExists = await Location.findOne({ driver: driver });
+
   if (locationExists) {
     locationExists.location = {
       type: "Point",
@@ -37,7 +40,7 @@ const createLocation = asyncHandler(async (req, res) => {
     };
     const updatedLocation = await locationExists.save();
     res.json({ updatedLocation });
-  }  else {
+  } else {
     const driverlocation = await Location.create({
       driver: driver,
       location: {
@@ -46,21 +49,6 @@ const createLocation = asyncHandler(async (req, res) => {
       },
     });
     res.json({ driverlocation });
-  }
-
-  const user = await Driver.findOne({ email });
-
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-
-      token: generateTokenDriver(user._id, user.name, user.email),
-    });
-  } else {
-    res.status(401);
-    throw new Error("Invalid email or password");
   }
 });
 
@@ -247,10 +235,10 @@ const getUserById = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 const getDriverLocation = asyncHandler(async (req, res) => {
-  // const { user } = req.body;
-  const driver = await Driver.findOne({
+  const driver = await Location.findOne({
     driver: req.query.id,
   });
+  console.log(driver);
   res.json(driver);
 });
 

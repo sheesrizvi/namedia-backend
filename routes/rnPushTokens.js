@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Driver = require("../models/driverModel");
 
-
 router.post("/register-token", async (req, res) => {
   const user = await Driver.findById(req.body.user._id);
 
@@ -12,6 +11,5 @@ router.post("/register-token", async (req, res) => {
   const updatedUser = await user.save();
   res.status(201).send();
 });
-
 
 module.exports = router;

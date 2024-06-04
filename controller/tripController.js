@@ -11,16 +11,16 @@ const createTrip = asyncHandler(async (req, res) => {
     endTime,
     startlocation: {
       type: "Point",
-      coordinates: [startlocation.long, startlocation.lat],
+      coordinates: [startlocation.longitude, startlocation.latitude],
     },
     endlocation: {
       type: "Point",
-      coordinates: [endlocation.long, endlocation.lat],
+      coordinates: [endlocation.longitude, endlocation.latitude],
     },
     distance,
   });
   if (trip) {
-    res.json(updatedPresent);
+    res.json(trip);
   } else {
     res.status(404);
     throw new Error("Error");
@@ -29,7 +29,9 @@ const createTrip = asyncHandler(async (req, res) => {
 
 const getTripsbyDriver = asyncHandler(async (req, res) => {
   const trips = await Trip.find({ driver: req.query.driver });
+  console.log(trips);
   if (trips) {
+    res.json(trips);
   } else {
     res.status(404).json("error");
   }
