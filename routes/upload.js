@@ -6,7 +6,6 @@ const router = express.Router();
 
 const multerS3 = require("multer-s3");
 
-const { admin, auth } = require("../middleware/authmiddleware");
 const { S3Client } = require("@aws-sdk/client-s3");
 
 const config = {
@@ -68,7 +67,7 @@ router.post(
   }
 );
 
-router.delete("/deleteImage", admin, async (req, res) => {
+router.delete("/deleteImage", async (req, res) => {
   const image = req.query.image;
   image.map(async (file) => {
     const fileName = file.split("//")[1].split("/")[1];

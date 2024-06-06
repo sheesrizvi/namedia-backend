@@ -1,6 +1,5 @@
 const express = require("express");
 
-const { admin } = require("../middleware/authmiddleware");
 const {
   createpresentlogin,
   createpresentlogout,

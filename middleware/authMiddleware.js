@@ -4,8 +4,6 @@ const Driver = require("../models/driverModel");
 const asyncHandler = require("express-async-handler");
 const Employee = require("../models/employeeModel");
 
-
-
 const auth = asyncHandler(async (req, res, next) => {
   try {
     const token = req.header("x-auth-token");
@@ -57,10 +55,9 @@ const employee = asyncHandler(async (req, res, next) => {
   }
 });
 
-
 module.exports = {
   admin,
   auth,
   driver,
-  employee
+  employee,
 };
