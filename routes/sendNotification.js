@@ -4,7 +4,6 @@ const router = express.Router();
 
 var serviceAccount = require("../namedia-app-firebase-adminsdk-wlndo-9f68aca2ee.json");
 
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
