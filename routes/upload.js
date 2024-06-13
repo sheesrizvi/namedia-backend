@@ -60,6 +60,16 @@ router.post(
     res.send(`${result.location}`);
   }
 );
+router.post(
+  "/video",
+  upload.single("video"),
+  async (req, res) => {
+    const result = req.file;
+
+    //define what to do if result is empty
+    res.send(`${result.location}`);
+  }
+);
 
 router.delete("/deleteImage", admin, async (req, res) => {
   const image = req.query.image;
