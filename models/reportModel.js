@@ -21,7 +21,7 @@ const reportSchema = mongoose.Schema(
     },
     approved: {
       type: Boolean,
-      deafult: false,
+      default: false,
     },
     activity: {
       type: mongoose.Schema.Types.ObjectId,

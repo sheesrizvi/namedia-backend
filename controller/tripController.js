@@ -29,7 +29,7 @@ const createTrip = asyncHandler(async (req, res) => {
 
 const getTripsbyDriver = asyncHandler(async (req, res) => {
   const trips = await Trip.find({ driver: req.query.driver });
-  console.log(trips);
+
   if (trips) {
     res.json(trips);
   } else {

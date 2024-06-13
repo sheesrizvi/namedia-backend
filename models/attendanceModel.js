@@ -13,7 +13,7 @@ const attendanceSchema = mongoose.Schema(
     },
     absent: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Employee",
+      ref: "Absent",
     },
     holiday: {
       type: mongoose.Schema.Types.ObjectId,

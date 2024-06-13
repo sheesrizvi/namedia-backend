@@ -74,7 +74,7 @@ const approveClearExpense = asyncHandler(async (req, res) => {
 const getExpense = asyncHandler(async (req, res) => {
   const { approved } = req.query;
   if (approved) {
-    const expense = Expense.find({
+    const expense = await Expense.find({
       approved: false,
     });
     if (expense) {

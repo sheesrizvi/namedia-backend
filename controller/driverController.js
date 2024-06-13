@@ -235,10 +235,11 @@ const getUserById = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 const getDriverLocation = asyncHandler(async (req, res) => {
+
   const driver = await Location.findOne({
     driver: req.query.id,
   });
-  console.log(driver);
+
   res.json(driver);
 });
 

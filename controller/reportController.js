@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 
-const { endOfDay } = require("date-fns");
-const { startOfDay } = require("date-fns");
+const { startOfDay, endOfDay, parseISO } = require("date-fns");
 const Report = require("../models/reportModel");
 
 const createReport = asyncHandler(async (req, res) => {
@@ -27,11 +26,11 @@ const createReport = asyncHandler(async (req, res) => {
 });
 
 const getUnApprovedReport = asyncHandler(async (req, res) => {
-  const { type, activity } = req.query;
+  const { activity } = req.query;
 
   const expense = await Report.find({
-    $and: [{ approved: false }, { activity: activity }],
-  });
+    $and: [  { activity: activity }, {approved: false} ],
+  }).populate("activity driver");
   if (expense) {
     res.json(expense);
   } else {
@@ -41,7 +40,7 @@ const getUnApprovedReport = asyncHandler(async (req, res) => {
 });
 
 const approveReport = asyncHandler(async (req, res) => {
-  const { type, id } = req.query;
+  const { id } = req.body;
 
   const expense = await Report.findOneAndUpdate(
     { _id: id },
@@ -51,10 +50,11 @@ const approveReport = asyncHandler(async (req, res) => {
 });
 
 const createMonthlyReport = asyncHandler(async (req, res) => {
-  const { startDate, endDate, type } = req.query;
+  const { startDate, endDate, activity } = req.query;
 
   const s1 = parseISO(startDate);
   const s2 = parseISO(endDate);
+
   const expense = await Report.find({
     $and: [
       { approved: true },
@@ -66,7 +66,7 @@ const createMonthlyReport = asyncHandler(async (req, res) => {
       },
       { activity: activity },
     ],
-  });
+  }).populate("activity driver");
   if (expense) {
     res.json(expense);
   } else {

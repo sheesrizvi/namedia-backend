@@ -95,8 +95,8 @@ const getSalaryByEmployeeMonthly = asyncHandler(async (req, res) => {
       },
     ],
   });
-  const deduction = (salarystructure.total / 30) * absent;
-  const amount = salarystructure.total - deduction;
+  const deduction = (salarystructure?.total / 30) * absent;
+  const amount = salarystructure?.total - deduction;
   if (salarystructure) {
     res.json({ salarystructure, absent, deduction, amount });
   } else {

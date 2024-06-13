@@ -5,6 +5,7 @@ const Holiday = require("../models/holidayModel");
 const Present = require("../models/presentModel");
 const { endOfDay } = require("date-fns");
 const { startOfDay } = require("date-fns");
+const { parseISO } = require("date-fns");
 
 const createabsent = asyncHandler(async (req, res) => {
   const { employee, date, absent, holiday, leaveType, holidayType } = req.body;
@@ -87,11 +88,12 @@ const createpresentlogout = asyncHandler(async (req, res) => {
 
 const getattendanceByEmployee = asyncHandler(async (req, res) => {
   const { startDate, endDate, employee } = req.query;
+
   const s1 = parseISO(startDate);
   const s2 = parseISO(endDate);
   const attendance = await Attendance.find({
     $and: [
-      employee,
+      {employee: employee},
       {
         date: {
           $gte: startOfDay(s1),
