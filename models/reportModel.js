@@ -15,6 +15,9 @@ const reportSchema = mongoose.Schema(
     video: {
       type: String,
     },
+    address: {
+      type: String,
+    },
     location: {
       type: { type: String, default: "Point" },
       coordinates: { type: [Number], index: "2dsphere" },

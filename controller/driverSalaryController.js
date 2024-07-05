@@ -1,14 +1,16 @@
 const asyncHandler = require("express-async-handler");
-const SalaryStructure = require("../models/salaryStructureModel");
-const Salary = require("../models/salaryModel");
-const Attendance = require("../models/attendanceModel");
+
 const { startOfMonth, endOfMonth, parseISO } = require("date-fns");
+const DriverSalaryStructure = require("../models/driverSalaryStructureModel");
+const DriverSalary = require("../models/driverSalaryModel");
+const DriverAbsent = require("../models/driverAbsentModel");
+const DriverAttendance = require("../models/driverAttendanceModel");
 
 const createSalaryStructure = asyncHandler(async (req, res) => {
-  const { employee, basic, hra, tele, ta, esi, pf, total } = req.body;
+  const { driver, basic, hra, tele, ta, esi, pf, total } = req.body;
 
-  const salarystructure = await SalaryStructure.create({
-    employee,
+  const salarystructure = await DriverSalaryStructure.create({
+    driver,
     basic,
     hra,
     tele,
@@ -27,7 +29,7 @@ const createSalaryStructure = asyncHandler(async (req, res) => {
 const updateSalaryStructure = asyncHandler(async (req, res) => {
   const { id, basic, hra, tele, ta, esi, pf, total } = req.body;
 
-  const salarystructure = await SalaryStructure.findById(id);
+  const salarystructure = await DriverSalaryStructure.findById(id);
 
   if (salarystructure) {
     salarystructure.basic = basic;
@@ -45,10 +47,10 @@ const updateSalaryStructure = asyncHandler(async (req, res) => {
   }
 });
 
-const getStructureByEmployee = asyncHandler(async (req, res) => {
-  const { employee } = req.query;
+const getStructureByDriver = asyncHandler(async (req, res) => {
+  const { driver } = req.query;
 
-  const salarystructure = await SalaryStructure.findOne({ employee });
+  const salarystructure = await DriverSalaryStructure.findOne({ driver });
 
   if (salarystructure) {
     res.json(salarystructure);
@@ -60,14 +62,14 @@ const getStructureByEmployee = asyncHandler(async (req, res) => {
 const getGeneratedSalary = asyncHandler(async (req, res) => {
   const page = Number(req.query.pageNumber) || 1;
   const pageSize = 30;
-  const count = await Salary.countDocuments({});
+  const count = await DriverSalary.countDocuments({});
   var pageCount = Math.floor(count / 30);
   if (count % 30 !== 0) {
     pageCount = pageCount + 1;
   }
 
-  const salarystructure = await Salary.find({})
-    .populate("employee salaryStructure")
+  const salarystructure = await DriverSalary.find({})
+    .populate("driver driverSalaryStructure")
     .limit(pageSize)
     .sort({ createdAt: -1 })
     .skip(pageSize * (page - 1));
@@ -79,12 +81,12 @@ const getGeneratedSalary = asyncHandler(async (req, res) => {
     throw new Error("Error");
   }
 });
-const getSalaryByEmployeeMonthly = asyncHandler(async (req, res) => {
-  const { employee, dateofmonth } = req.query;
+const getSalaryByDriverMonthly = asyncHandler(async (req, res) => {
+  const { driver, dateofmonth } = req.query;
   const s1 = parseISO(dateofmonth);
-  const salarystructure = await SalaryStructure.findOne({ employee: employee });
+  const salarystructure = await DriverSalaryStructure.findOne({ driver: driver });
 
-  const absent = await Attendance.countDocuments({
+  const absent = await DriverAbsent.countDocuments({
     $and: [
       { type: "absent" },
       {
@@ -106,10 +108,10 @@ const getSalaryByEmployeeMonthly = asyncHandler(async (req, res) => {
 });
 
 const generateSalary = asyncHandler(async (req, res) => {
-  const { employee, salaryStructure, dateofmonth, bonus, month, deduct } = req.body;
+  const { driver, salaryStructure, dateofmonth, bonus, month, deduct } = req.body;
   const s1 = parseISO(dateofmonth);
-  const salarystructure = await SalaryStructure.findById(salaryStructure);
-  const absent = await Attendance.countDocuments({
+  const salarystructure = await DriverSalaryStructure.findById(salaryStructure);
+  const absent = await DriverAttendance.countDocuments({
     $and: [
       { type: "absent" },
       {
@@ -122,11 +124,10 @@ const generateSalary = asyncHandler(async (req, res) => {
   });
   const deduction = (salarystructure.total / 30) * absent;
   const amount = salarystructure.total - deduction - deduct;
-  const salary = await Salary.create({
-    employee,
+  const salary = await DriverSalary.create({
+    driver,
     salaryStructure,
     month,
-    deduct,
     amount,
     bonus,
   });
@@ -141,8 +142,8 @@ const generateSalary = asyncHandler(async (req, res) => {
 module.exports = {
   createSalaryStructure,
   generateSalary,
-  getStructureByEmployee,
+  getStructureByDriver,
   updateSalaryStructure,
-  getSalaryByEmployeeMonthly,
+  getSalaryByDriverMonthly,
   getGeneratedSalary,
 };

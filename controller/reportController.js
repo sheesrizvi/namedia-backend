@@ -16,6 +16,7 @@ const createReport = asyncHandler(async (req, res) => {
     approved,
     video,
     activity,
+    address
   });
   if (expense) {
     res.status(201).json(expense);
