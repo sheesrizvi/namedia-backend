@@ -1,6 +1,11 @@
 const express = require("express");
-const { createpresentlogin, createpresentlogout, createabsent, getattendanceByDriver, getAllattendanceByDriver } = require("../controller/driverAttendanceController");
-
+const {
+  createpresentlogin,
+  createpresentlogout,
+  createabsent,
+  getattendanceByDriver,
+  getAllattendanceByDriver,
+} = require("../controller/driverAttendanceController");
 
 const router = express.Router();
 

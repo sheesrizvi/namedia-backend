@@ -4,7 +4,8 @@ const { startOfDay, endOfDay, parseISO } = require("date-fns");
 const Report = require("../models/reportModel");
 
 const createReport = asyncHandler(async (req, res) => {
-  const { driver, image, location, approved, activity, video } = req.body;
+  const { driver, image, location, approved, activity, video, address } =
+    req.body;
 
   const expense = await Report.create({
     driver,
@@ -16,7 +17,7 @@ const createReport = asyncHandler(async (req, res) => {
     approved,
     video,
     activity,
-    address
+    address,
   });
   if (expense) {
     res.status(201).json(expense);
@@ -30,7 +31,7 @@ const getUnApprovedReport = asyncHandler(async (req, res) => {
   const { activity } = req.query;
 
   const expense = await Report.find({
-    $and: [  { activity: activity }, {approved: false} ],
+    $and: [{ activity: activity }, { approved: false }],
   }).populate("activity driver");
   if (expense) {
     res.json(expense);

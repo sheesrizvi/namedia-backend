@@ -10,9 +10,13 @@ const DriverPresent = require("../models/driverPresentModel");
 
 const createabsent = asyncHandler(async (req, res) => {
   const { driver, date, absent, holiday, leaveType, holidayType } = req.body;
-
+  console.log(req.body);
   const createAten = async (element) => {
-    const absents = await DriverAbsent.create({ driver, date: element, leaveType });
+    const absents = await DriverAbsent.create({
+      driver,
+      date: element,
+      leaveType,
+    });
     const attendance = await DriverAttendance.create({
       driver,
       date: element,
@@ -94,7 +98,7 @@ const getattendanceByDriver = asyncHandler(async (req, res) => {
   const s2 = parseISO(endDate);
   const attendance = await DriverAttendance.find({
     $and: [
-      {driver: driver},
+      { driver: driver },
       {
         date: {
           $gte: startOfDay(s1),
@@ -114,7 +118,7 @@ const getattendanceByDriver = asyncHandler(async (req, res) => {
 const getAllattendanceByDriver = asyncHandler(async (req, res) => {
   const { driver } = req.query;
 
-  const attendance = await DriverAttendance.find({ employee });
+  const attendance = await DriverAttendance.find({ driver });
 
   if (attendance) {
     res.json(attendance);
