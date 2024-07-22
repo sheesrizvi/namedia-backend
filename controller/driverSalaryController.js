@@ -126,10 +126,11 @@ const generateSalary = asyncHandler(async (req, res) => {
   const amount = salarystructure.total - deduction - deduct;
   const salary = await DriverSalary.create({
     driver,
-    salaryStructure,
+    driverSalaryStructure: salaryStructure,
     month,
     amount,
     bonus,
+    deduct
   });
   if (salary) {
     res.json(salary);

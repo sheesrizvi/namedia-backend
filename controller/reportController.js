@@ -2,6 +2,9 @@ const asyncHandler = require("express-async-handler");
 
 const { startOfDay, endOfDay, parseISO } = require("date-fns");
 const Report = require("../models/reportModel");
+const Driver = require("../models/driverModel");
+const Expense = require("../models/expenseModel");
+const Employee = require("../models/employeeModel");
 
 const createReport = asyncHandler(async (req, res) => {
   const { driver, image, location, approved, activity, video, address } =
@@ -77,9 +80,18 @@ const createMonthlyReport = asyncHandler(async (req, res) => {
   }
 });
 
+const getData = asyncHandler(async (req, res) => {
+  const report = await Report.countDocuments({ approved: false });
+  const driver = await Driver.countDocuments({});
+  const expense = await Expense.countDocuments({ approved: false });
+  const employee = await Employee.countDocuments({});
+  res.json({report, driver, expense, employee});
+});
+
 module.exports = {
   createMonthlyReport,
   approveReport,
   getUnApprovedReport,
   createReport,
+  getData
 };
