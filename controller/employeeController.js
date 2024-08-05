@@ -127,7 +127,7 @@ const updateEmployee = asyncHandler(async (req, res) => {
     category,
     status,
   } = req.body;
-  const user = await Driver.findById(req.body.id);
+  const user = await Employee.findById(req.body.id);
 
   if (user) {
     user.name = name ? name : user.name;
