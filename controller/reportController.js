@@ -87,8 +87,14 @@ const getData = asyncHandler(async (req, res) => {
   const employee = await Employee.countDocuments({});
   res.json({report, driver, expense, employee});
 });
+const deleteData = asyncHandler(async (req, res) => {
+  const report = await Report.deleteOne({ _id: req.query.id });
+ 
+  res.json("deleted");
+});
 
 module.exports = {
+  deleteData,
   createMonthlyReport,
   approveReport,
   getUnApprovedReport,

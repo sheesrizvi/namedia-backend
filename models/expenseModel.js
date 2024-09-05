@@ -18,6 +18,9 @@ const expenseSchema = mongoose.Schema(
     image: {
       type: String,
     },
+    type: {
+      type: String,
+    },
     approved: {
       type: Boolean,
       default: false,
