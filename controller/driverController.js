@@ -188,10 +188,10 @@ const updateUser = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
   const page = Number(req.query.pageNumber) || 1;
-  const pageSize = 30;
+  const pageSize = 10;
   const count = await Driver.countDocuments({});
-  var pageCount = Math.floor(count / 30);
-  if (count % 30 !== 0) {
+  var pageCount = Math.floor(count / 10);
+  if (count % 10 !== 0) {
     pageCount = pageCount + 1;
   }
   const users = await Driver.find({})
@@ -199,6 +199,12 @@ const getUsers = asyncHandler(async (req, res) => {
     .sort({ createdAt: -1 })
     .skip(pageSize * (page - 1));
   res.json({ users, pageCount });
+});
+const getDrivers = asyncHandler(async (req, res) => {
+ 
+  const users = await Driver.find({})
+  
+  res.json({ users});
 });
 
 // @desc    Delete users
@@ -245,6 +251,7 @@ const getDriverLocation = asyncHandler(async (req, res) => {
 
 module.exports = {
   authUser,
+  getDrivers,
   createLocation,
   getDriverLocation,
   registerUser,
